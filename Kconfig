@@ -1,0 +1,47 @@
+#
+# Copyright (c) 2022 Laird Connectivity LLC
+#
+# SPDX-License-Identifier: LicenseRef-LairdConnectivity-Clause
+#
+menuconfig LCZ_LWM2M_CONN_MON
+	bool "Enable LwM2M connectivity monitoring object"
+	depends on LCZ_LWM2M_CLIENT
+	depends on ATTR
+	depends on SYSTEM_MESSAGE_TASK
+	select LCZ_SNPRINTK
+	select LCZ_LWM2M_CONN_MON_OBJ_SUPPORT
+
+if LCZ_LWM2M_CONN_MON
+
+module=LCZ_LWM2M_CONN_MON
+module-str=LCZ_LWM2M_CONN_MON
+source "subsys/logging/Kconfig.template.log_config"
+
+choice
+	prompt "Network Type"
+	default LCZ_LWM2M_CONN_MON_MODEM if MODEM_HL7800
+	default LCZ_LWM2M_CONN_MON_ETHERNET if BOARD_BL5340_DVK_CPUAPP || BOARD_BL5340PA_DVK_CPUAPP
+	default LCZ_LWM2M_CONN_MON_BLUETOOTH
+
+config LCZ_LWM2M_CONN_MON_MODEM
+	bool "LTE/NbIoT config"
+
+config LCZ_LWM2M_CONN_MON_ETHERNET
+	bool "Ethernet config"
+
+config LCZ_LWM2M_CONN_MON_BLUETOOTH
+	bool "Bluetooth config"
+
+endchoice
+
+config LCZ_LWM2M_CONN_MON_IPV6
+	bool "Support IPV6 address instances"
+	depends on NET_IPV6
+	depends on LCZ_LWM2M_CONN_MON_MODEM
+
+config LCZ_LWM2M_CONN_MON_SYS_INIT_PRIORITY
+	int "Init priority (Post kernel)"
+	range 0 99
+	default 99
+
+endif # LCZ_LWM2M_CONN_MON
