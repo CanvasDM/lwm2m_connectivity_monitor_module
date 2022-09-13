@@ -28,7 +28,7 @@ LOG_MODULE_REGISTER(lwm2m_conn_mon, CONFIG_LCZ_LWM2M_CONN_MON_LOG_LEVEL);
 /**************************************************************************************************/
 /* Local Data Definitions                                                                         */
 /**************************************************************************************************/
-static uint8_t network_bearers[] = { ETHERNET_BEARER };
+static uint8_t network_bearer = ETHERNET_BEARER;
 
 /**************************************************************************************************/
 /* Local Function Prototypes                                                                      */
@@ -56,8 +56,11 @@ static void initialize_resources(void)
 {
 	char *str;
 
+	lwm2m_engine_set_u8("4/0/0", network_bearer);
+
+	/* available bearers */
 	lwm2m_engine_create_res_inst("4/0/1/0");
-	lwm2m_engine_set_res_data("4/0/1/0", &network_bearers[0], sizeof(network_bearers[0]),
+	lwm2m_engine_set_res_data("4/0/1/0", &network_bearer, sizeof(network_bearer),
 				  LWM2M_RES_DATA_FLAG_RO);
 
 	/* Resource data points to value in attribute table */

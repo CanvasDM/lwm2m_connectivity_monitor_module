@@ -30,7 +30,7 @@ static const attr_id_t ATTR_INIT_LIST[] = { ATTR_ID_ble_rssi };
 /**************************************************************************************************/
 /* Local Data Definitions                                                                         */
 /**************************************************************************************************/
-static uint8_t network_bearers[] = { BLUETOOTH_BEARER };
+static uint8_t network_bearer = BLUETOOTH_BEARER;
 
 static bool conn_mon_initialized;
 
@@ -67,8 +67,11 @@ static void initialize_resources(void)
 {
 	char *str;
 
+	lwm2m_engine_set_u8("4/0/0", network_bearer);
+
+	/* available bearers */
 	lwm2m_engine_create_res_inst("4/0/1/0");
-	lwm2m_engine_set_res_data("4/0/1/0", &network_bearers[0], sizeof(network_bearers[0]),
+	lwm2m_engine_set_res_data("4/0/1/0", &network_bearer, sizeof(network_bearer),
 				  LWM2M_RES_DATA_FLAG_RO);
 
 	/* Resource data points to value in attribute table */
