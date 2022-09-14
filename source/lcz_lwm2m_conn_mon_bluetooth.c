@@ -65,8 +65,6 @@ SYS_INIT(lcz_lwm2m_conn_mon_init, APPLICATION, CONFIG_LCZ_LWM2M_CONN_MON_SYS_INI
 /**************************************************************************************************/
 static void initialize_resources(void)
 {
-	char *str;
-
 	lwm2m_engine_set_u8("4/0/0", network_bearer);
 
 	/* available bearers */
@@ -75,17 +73,18 @@ static void initialize_resources(void)
 				  LWM2M_RES_DATA_FLAG_RO);
 
 	/* Resource data points to value in attribute table */
-
+#if defined(ATTR_ID_ipv4_addr)
 	lwm2m_engine_create_res_inst("4/0/4/0");
-	str = (char *)attr_get_quasi_static(ATTR_ID_ipv4_addr);
-	lwm2m_engine_set_res_data("4/0/4/0", str, attr_get_size(ATTR_ID_ipv4_addr),
-				  LWM2M_RES_DATA_FLAG_RO);
+	lwm2m_engine_set_res_data("4/0/4/0", (char *)attr_get_quasi_static(ATTR_ID_ipv4_addr),
+				  attr_get_size(ATTR_ID_ipv4_addr), LWM2M_RES_DATA_FLAG_RO);
+#endif
 
 	/* Gateway Address */
+#if defined(ATTR_ID_gw_ipv4_addr)
 	lwm2m_engine_create_res_inst("4/0/5/0");
-	str = (char *)attr_get_quasi_static(ATTR_ID_gw_ipv4_addr);
-	lwm2m_engine_set_res_data("4/0/5/0", str, attr_get_size(ATTR_ID_gw_ipv4_addr),
-				  LWM2M_RES_DATA_FLAG_RO);
+	lwm2m_engine_set_res_data("4/0/5/0", (char *)attr_get_quasi_static(ATTR_ID_gw_ipv4_addr),
+				  attr_get_size(ATTR_ID_gw_ipv4_addr), LWM2M_RES_DATA_FLAG_RO);
+#endif
 
 	/* Delete unused resources created by Zephyr */
 	lwm2m_engine_delete_res_inst("4/0/8/0");
