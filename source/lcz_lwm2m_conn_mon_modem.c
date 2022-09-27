@@ -130,8 +130,10 @@ static void cm_attr_callback(const attr_id_t *id_list, size_t list_count, void *
 			break;
 
 		case ATTR_ID_lte_sinr:
-			lwm2m_engine_set_s8("4/0/3",
-					    (int8_t)attr_get_signed32(ATTR_ID_lte_sinr, 0));
+			if (IS_ENABLED(CONFIG_LCZ_LWM2M_CONNMON_OBJECT_VERSION_1_2)) {
+				lwm2m_engine_set_s32("4/0/11",
+						     attr_get_signed32(ATTR_ID_lte_sinr, 0));
+			}
 			break;
 
 		case ATTR_ID_ipv4_addr:
