@@ -103,9 +103,13 @@ static void initialize_resources(void)
 				  LWM2M_RES_DATA_FLAG_RO);
 
 	/* Delete unused resources created by Zephyr */
+	lwm2m_engine_delete_res_inst("4/0/3/0");
 	lwm2m_engine_delete_res_inst("4/0/8/0");
 	lwm2m_engine_delete_res_inst("4/0/9/0");
 	lwm2m_engine_delete_res_inst("4/0/10/0");
+#if defined(CONFIG_LCZ_LWM2M_CONNMON_OBJECT_VERSION_1_2)
+	lwm2m_engine_delete_res_inst("4/0/12/0");
+#endif
 
 	conn_mon_initialized = true;
 }
