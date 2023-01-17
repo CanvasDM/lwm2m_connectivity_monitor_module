@@ -108,7 +108,7 @@ static void initialize_resources(void)
 	lwm2m_engine_delete_res_inst("4/0/8/0");
 	lwm2m_engine_delete_res_inst("4/0/9/0");
 	lwm2m_engine_delete_res_inst("4/0/10/0");
-#if defined(CONFIG_LCZ_LWM2M_CONNMON_OBJECT_VERSION_1_2)
+#if defined(CONFIG_LWM2M_CONNMON_OBJECT_VERSION_1_2)
 	lwm2m_engine_delete_res_inst("4/0/12/0");
 #endif
 
@@ -135,7 +135,7 @@ static void cm_attr_callback(const attr_id_t *id_list, size_t list_count, void *
 			break;
 
 		case ATTR_ID_lte_sinr:
-			if (IS_ENABLED(CONFIG_LCZ_LWM2M_CONNMON_OBJECT_VERSION_1_2)) {
+			if (IS_ENABLED(CONFIG_LWM2M_CONNMON_OBJECT_VERSION_1_2)) {
 				lwm2m_engine_set_s32("4/0/11",
 						     attr_get_signed32(ATTR_ID_lte_sinr, 0));
 			}
